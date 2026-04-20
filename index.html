@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Attendance System</title>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        .auth-container { background: #1e293b; padding: 40px; border-radius: 20px; width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .auth-container h2 { color: #60a5fa; margin-bottom: 25px; }
+        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; margin-bottom: 15px; outline: none; }
+        #main-dashboard { display: none; background: #1e293b; padding: 30px; border-radius: 20px; width: 950px; gap: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); }
+        .cam-section { flex: 1.5; text-align: center; position: relative; }
+        video { width: 100%; border-radius: 15px; background: #000; border: 2px solid #334155; }
+        canvas { position: absolute; top: 85px; left: 0; pointer-events: none; }
+        .side-panel { flex: 0.8; display: flex; flex-direction: column; gap: 15px; }
+        .btn { border: none; padding: 14px; border-radius: 12px; font-weight: bold; cursor: pointer; color: white; transition: 0.3s; width: 100%; }
+        .btn-blue { background: #3b82f6; }
+        .btn-view { background: #6366f1; }
+        .btn-logout { background: #ef4444; margin-top: auto; }
+        .status-badge { padding: 12px; background: #334155; border-radius: 10px; margin-bottom: 10px; font-size: 14px; border-left: 4px solid #3b82f6; }
+        .log-container { background: #0f172a; padding: 15px; height: 250px; overflow-y: auto; border-radius: 12px; }
+        ul { padding: 0; margin: 0; }
+        li { color: #10b981; list-style: none; padding: 8px; font-size: 13px; border-bottom: 1px solid #1e293b; }
+    </style>
+</head>
+<body>
+
+    <div id="auth-page" class="auth-container">
+        <h2 id="auth-title">Admin Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button class="btn btn-blue" id="auth-btn" onclick="handleAuth()">Login</button>
+        <p style="font-size: 13px; cursor: pointer; color: #94a3b8; margin-top: 15px;" onclick="toggleAuthMode()" id="toggle-text">Don't have an account? Register</p>
+    </div>
+
+    <div id="main-dashboard">
+        <div class="cam-section">
+            <h2 style="color:#60a5fa; margin-top:0;">AI Smart Scanner</h2>
+            <div id="status" class="status-badge">⏳ Waiting for login...</div>
+            <video id="video" autoplay muted playsinline></video>
+        </div>
+
+        <div class="side-panel">
+            <h2 style="color:#60a5fa; margin-top:0;">Actions</h2>
+            <button class="btn btn-blue" onclick="registerFace()">👤 Register Face</button>
+            <button class="btn btn-view" onclick="viewFullAttendance()">📊 View Report</button>
+            <div class="log-container">
+                <h4 style="margin:0 0 10px 0; font-size:12px; color:#94a3b8;">RECENT LOGS</h4>
+                <ul id="log"></ul>
+            </div>
+            <button class="btn btn-logout" onclick="logout()">🚪 Logout</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
